@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopwind.com</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+   
+</head>
+<body>
+    <header>
+        <div class="main-nav">
+            <div>
+                <a href="">
+                   <!-- <img src="/images/io.ico" alt=""> -->
+                </a>
+            </div>
+            <form>
+                <input type="text" id="search" placeholder="What is on your mind Today?">
+                <input id="searchbtn" type="submit" value="search">
+            </form>
+            <div id="links">
+                <a href="./index.html"></a>
+                <a href="./cart.html">cart</a>
+                
+                <a id="login" href="./login.html">Login
+                    <!-- <img src="https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png" alt=""> -->
+                </a>
+                <a id="signup" href="./signup.html">Signup</a> 
+            </div> 
+            
+        </div>
+    </header>
+    <div class="menu-bar">
+        <ul>
+            <li><a href="#">MOBILE & MORE</a>
+                
+            <li><a href="#">MEN</a></li>
+            <li><a href="#">WOMEN</a></li>
+            <li><a href="#">HOME & KITCHEN</a></li>
+            <li><a href="#">APPLIANCES</a></li>
+            <li><a href="#">SPORTS & MORE</a></li>
+            <li><a href="#">ESSENTIALS</a></li>
+            <li><a href="#">OFFERS</a></li>
+            <li><a href="#">GLOBAL SHOPPING</a></li>
+        </ul>
+    </div>
+    
+     <div class="menu-nav">
+        <div class="links-div">
+            <a href="#">Time Sales</a>
+            <a href="#">Flue Care</a>
+            <a href="#">Food & Baverage</a>
+            <a href="#">Personal Hygiene</a>
+            <a href="#">Home Cleaning</a>
+            <a href="#">Nutrition & Supplements</a>
+            <a href="#">Kitchen & Dining</a>
+            <a href="#">Refurbisheal Mobile</a>
+            <a href="#">Mobile Accessories</a>
+        </div>
+    </div>
+    <div id="image-container">
+        <div id="slidshow"></div>
+        
+        <div id="img1">
+            <img src="https://cdn.shopclues.com/images/banners/2023/Feb/16/Platinum_Esha_16Feb23_01.jpg" alt="">
+        </div>
+        <div id="img2">
+            <img src="https://cdn.shopclues.com/images/banners/2023/Feb/16/Platinum_Esha_16Feb23_02.jpg" alt="">
+        </div>
+        <div id="img3">
+            <img src="https://cdn.shopclues.com/images/banners/2023/Feb/16/Platinum_Esha_16Feb23_03.jpg" alt="">
+        </div>
+    
+    </div>
+    <h1>Your Gadgets Store</h1>
+    <br>
+    <div id="product-container">
+        
+    </div> 
+    <br>
+    <h1>Your Fashion Store</h1>
+    <br>
+    <div class="fashion-store"></div>
+     
+    
+</body>
+</html>
+<script>
+    let img = document.createElement("img");
+
+let slide = document.getElementById("slidshow");
+slide.append(img);
+let Index = 0;
+
+
+var ImagesArr = [
+    "https://cdn.shopclues.com/images/banners/2023/Feb/22/Holi_HB1_BrandedFootwear_Web_SYM_23Feb23Rev.jpg",
+    "https://cdn.shopclues.com/images/banners/2023/Feb/23/Holi_HB3_Trueware_Web_SYM_23Feb23.jpg",
+    "https://cdn.shopclues.com/images/banners/2023/Feb/23/Holi_HB2_RefurbishedMobiles_Web_SYM_23Feb23.jpg",
+    "https://cdn.shopclues.com/images/banners/2023/Jan/31/Shopclues_SMB_SYM_Web_31Jan23.jpg",
+    "https://cdn.shopclues.com/images/banners/2023/Feb/22/HB3_JDD_Web_Esha_22Feb23.jpg"
+];
+
+slideshow(ImagesArr);
+
+function slideshow(image) {
+    img.setAttribute("src", image[Index]);
+    if (Index == image.length - 1) {
+        Index = 0;
+    } else {
+        Index++;
+    }
+}
+
+window.addEventListener("load", function () {
+    setInterval(slideshow, 4000, ImagesArr);
+
+    
+});
+
+const url = 'https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-tech-products'
+let cont = document.getElementById("product-container")
+
+async function fetchdata(){
+   try {
+    let res = await fetch(url)
+    res = await res.json()
+    showdata(res.data)
+    console.log(res)
+   } catch (error) {
+    console.log(err)
+   }
+}
+fetchdata()
+let lsdata = JSON.parse(localStorage.getItem("cart"))||[]
+function showdata(data){
+    cont.innerText = ""
+    data.forEach((el)=>{
+        let cards = document.createElement("div")
+        let image = document.createElement("img")
+        let brand = document.createElement("h2")
+        let category = document.createElement("h3")
+        let price = document.createElement("p")
+        let add = document.createElement("button")
+        image.setAttribute("src", el.img)
+        brand.innerText = el.brand
+        category.innerText = el.category
+        price.innerText = "$" + el.price
+        add.innerText = "Add to cart"
+        add.addEventListener("click",()=>{
+            if(checkduplicate(el)){
+                alert("Product already in cart")
+            }else{
+                lsdata.push({...el, quantity:1})
+                localStorage.setItem("cart", JSON.stringify(lsdata))
+                alert("succesfully added on cart")
+            }
+        })
+        function checkduplicate(el){
+            for(let i=0;i<lsdata.length;i++){
+                if(lsdata[i].img == el.img){
+                    return true
+                }
+            }
+            return false
+        }
+        
+        cards.append(image,brand,category,price,add)
+        cont.append(cards)
+    })
+}
+
+</script>

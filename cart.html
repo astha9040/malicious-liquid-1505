@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <header>
+        <div class="main-nav">
+            <div>
+                <a href="">
+                   <!-- <img src="/images/io.ico" alt=""> -->
+                </a>
+            </div>
+            
+            <div id="links">
+                <a href="./index.html"></a>
+                <a href="./cart.html"></a>
+                
+            </div> 
+            
+        </div>
+    </header>
+    My Cart
+    <div id="main-containetr">
+        <h1>My Cart</h1>
+        <div id="cart-container">
+        
+        </div>
+    </div>
+    
+</body>
+</html>
+<script>
+    let lsdata = JSON.parse(localStorage.getItem("cart"))||[]
+    let cont = document.getElementById("cart-container")
+
+    function showdata(data){
+    cont.innerText = ""
+    lsdata.forEach((el)=>{
+        let cards = document.createElement("div")
+        let image = document.createElement("img")
+        let brand = document.createElement("h2")
+        let category = document.createElement("h3")
+        let price = document.createElement("p")
+        let incrementbtn = document.createElement("button")
+        let decrementbtn = document.createElement("button")
+        let quantity = document.createElement("span")
+        let remove = document.createElement("button")
+
+        image.setAttribute("src", el.img)
+        brand.innerText = el.brand
+        category.innerText = el.category
+        price.innerText = "$" + el.price
+        quantity.innerText = el.quantity
+        incrementbtn.innerText = "+"
+        decrementbtn.innerText = "-"
+        remove.innerText = "Remove"
+        remove.addEventListener("click",()=>{
+            lsdata = lsdata.filter((ele)=>{
+                return ele.id!==el.id
+            })
+            localStorage.setItem("cart",JSON.stringify(lsdata))
+            showdata()
+        })
+        incrementbtn.addEventListener("click",()=>{
+            
+                el=el.quantity++
+                localStorage.setItem("cart",JSON.stringify(lsdata))
+                showdata()
+            
+        })
+        decrementbtn.addEventListener("click",()=>{
+            
+                el=el.quantity--
+            localStorage.setItem("cart",JSON.stringify(lsdata))
+            showdata()
+            
+        })
+        
+        
+        cards.append(image,brand,category,price,decrementbtn,quantity,incrementbtn,remove)
+        cont.append(cards)
+    })
+}
+showdata()
+</script>
