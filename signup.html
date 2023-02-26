@@ -5,16 +5,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
+    <link rel="stylesheet" href="./signup.css">
+    <script src="https://kit.fontawesome.com/4052196a9f.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="links">
         <a href="./index.html"></a>
-       
+       <a href="./home.html"></a>
         
-        <a id="login" href="./login.html">Login
+        <a id="login" href="./login.html">
             <!-- <img src="https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png" alt=""> -->
         </a>
-        <a id="signup" href="./signup.html">Signup</a> 
+        <a id="signup" href="./signup.html"></a> 
     </div> 
+    <div id="fill-form">
+        <h1>Signup</h1>
+        <form>
+            <input type="text" id="name" placeholder="Full Name"><br>
+            <input type="number" id="mobile" placeholder="Mobile No."><br><br>
+            <input type="email" id="email" placeholder="Email ID"><br>
+            <input type="password" id="password" placeholder="Password"><br>
+            <input type="submit" value="Signup" id="submit"/>
+        </form>
+        <div class="back">
+            <a href="./index.html"><i class="fa-solid fa-house"></i></a>
+            <a href="./login.html"><i class="fa-solid fa-circle-chevron-left"></i></a>
+        </div>
+    </div>
+    
 </body>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
+<script>
+    let name = document.getElementById("name");
+    let phone = document.getElementById("mobile")
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    let signupdata = [];
+    document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        let obj = {
+            Name: name.value,
+            Email: email.value,
+            Password: password.value,
+            MobileNo: phone.value
+        }
+        signupdata.push(obj);
+        localStorage.setItem("account-data", JSON.stringify(signupdata));
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Signup Successfully',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        setTimeout(() => {
+            window.location.href = "./home.html"
+        }, 1000)
+    })
+
+</script>

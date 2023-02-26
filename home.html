@@ -23,12 +23,12 @@
             </form>
             <div id="links">
                 <a href="./index.html"></a>
-                <a href="./cart.html">cart</a>
+                <a href="./cart.html">My Cart</a>
                 
-                <a id="login" href="./login.html">Login
+                <a id="login" href="./login.html">
                     <!-- <img src="https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png" alt=""> -->
                 </a>
-                <a id="signup" href="./signup.html">Signup</a> 
+                <a id="signup" href="./signup.html"></a> 
             </div> 
             
         </div>
@@ -137,7 +137,7 @@ async function fetchdata(){
    }
 }
 fetchdata()
-
+let lsdata = JSON.parse(localStorage.getItem("cart"))||[]
 function showdata(data){
     cont.innerText = ""
     data.forEach((el)=>{
@@ -153,35 +153,26 @@ function showdata(data){
         price.innerText = "$" + el.price
         add.innerText = "Add to cart"
         add.addEventListener("click",()=>{
-
-            alert("You need to login or signup for this")
+            if(checkduplicate(el)){
+                alert("Product already in cart")
+            }else{
+                lsdata.push({...el, quantity:1})
+                localStorage.setItem("cart", JSON.stringify(lsdata))
+                alert("succesfully added on cart")
+            }
         })
-
-        
-        
+        function checkduplicate(el){
+            for(let i=0;i<lsdata.length;i++){
+                if(lsdata[i].img == el.img){
+                    return true
+                }
+            }
+            return false
+        }
         
         cards.append(image,brand,category,price,add)
         cont.append(cards)
     })
 }
-// const api = 'https://fakestoreapi.com/products/category/jewelery'
-// let feshion_cont = document.getElementById("fashion-store")
 
-// async function feshiondata(){
-   
-//     let res = await fetch(api)
-//     res = await res.json()
-//     displaydata(data)
-//     console.log(res)
-   
-// }
-// feshiondata()
-
-
-// function displaydata(data){
-//     feshion_cont.innerHTML = ""
-//     data.forEach((e)=>{
-
-//     })
-// }
 </script>

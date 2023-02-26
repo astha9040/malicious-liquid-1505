@@ -19,14 +19,18 @@
             <div id="links">
                 <a href="./index.html"></a>
                 <a href="./cart.html"></a>
+                <a href="./home.html"></a>
                 
             </div> 
             
         </div>
     </header>
-    My Cart
+    <!-- My Cart -->
     <div id="main-containetr">
         <h1>My Cart</h1>
+        <!-- <h1 id="total">
+            Your total order value is :- <span id="order-total">0</span>
+          </h1> -->
         <div id="cart-container">
         
         </div>
@@ -65,6 +69,13 @@
             })
             localStorage.setItem("cart",JSON.stringify(lsdata))
             showdata()
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Buy Successfull',
+                showConfirmButton: false,
+                timer: 1500
+            })
         })
         incrementbtn.addEventListener("click",()=>{
             
@@ -73,14 +84,22 @@
                 showdata()
             
         })
-        decrementbtn.addEventListener("click",()=>{
+        
             
-                el=el.quantity--
-            localStorage.setItem("cart",JSON.stringify(lsdata))
-            showdata()
+        decrementbtn.addEventListener("click", () => {
+            if (el.quantity > 1) {
+                el = el.quantity--
+                localStorage.setItem("cart", JSON.stringify(lsdata))
+                showdata()
+            }
             
         })
         
+        // let sum = 0 
+        // for(let i=0;i<Lsdata.length;i++){
+        //   sum+=Lsdata[i].price * Lsdata[i].quantity
+        // }
+        // document.getElementById("order-total").innerText = sum 
         
         cards.append(image,brand,category,price,decrementbtn,quantity,incrementbtn,remove)
         cont.append(cards)
