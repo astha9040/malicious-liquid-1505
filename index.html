@@ -12,11 +12,7 @@
 <body>
     <header>
         <div class="main-nav">
-            <div>
-                <a href="">
-                   <!-- <img src="/images/io.ico" alt=""> -->
-                </a>
-            </div>
+            <img src="https://i.postimg.cc/DZCySxc2/Shopwind1.png" alt="">
             <form>
                 <input type="text" id="search" placeholder="What is on your mind Today?">
                 <input id="searchbtn" type="submit" value="search">
@@ -138,6 +134,21 @@ async function fetchdata(){
 }
 fetchdata()
 
+const searchproduct = document.querySelector("form")
+searchproduct.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        let searchdata = searchproduct.search.value;
+        let filtered = data.filter((element)=>{
+            if(element.brand.common.toUpperCase().includes(searchdata.toUpperCase())===true){
+                return true;
+            }else{
+                return false;
+            }
+
+        })
+        countryApp(filtered);
+    })
+
 function showdata(data){
     cont.innerText = ""
     data.forEach((el)=>{
@@ -164,6 +175,7 @@ function showdata(data){
         cont.append(cards)
     })
 }
+
 // const api = 'https://fakestoreapi.com/products/category/jewelery'
 // let feshion_cont = document.getElementById("fashion-store")
 

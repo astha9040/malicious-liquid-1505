@@ -25,6 +25,9 @@ header{
    align-items: center; 
    justify-content: space-around;
 }
+.main-nav img{
+    width: 60px;
+}
 #links{
     width: 250px;
     /* border: 2px solid red; */
